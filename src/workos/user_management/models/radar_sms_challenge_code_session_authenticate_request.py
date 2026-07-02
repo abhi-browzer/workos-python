@@ -8,50 +8,53 @@ from workos._types import _raise_deserialize_error
 
 
 @dataclass(slots=True)
-class PasswordSessionAuthenticateRequest:
-    """Password Session Authenticate Request model."""
+class RadarSmsChallengeCodeSessionAuthenticateRequest:
+    """Radar Sms Challenge Code Session Authenticate Request model."""
 
     client_id: str
     """The client ID of the application."""
     client_secret: str
     """The client secret of the application."""
-    grant_type: Literal["password"]
-    email: str
-    """The user's email address."""
-    password: str
-    """The user's password."""
-    invitation_token: Optional[str] = None
-    """An invitation token to accept during authentication."""
+    grant_type: Literal["urn:workos:oauth:grant-type:radar-sms-challenge:code"]
+    code: str
+    """The one-time code from the Radar SMS challenge."""
+    verification_id: str
+    """The ID of the Radar SMS verification being confirmed."""
+    phone_number: str
+    """The phone number the Radar SMS challenge was sent to."""
+    pending_authentication_token: str
+    """The pending authentication token from a previous authentication attempt."""
     ip_address: Optional[str] = None
     """The IP address of the user's request."""
     device_id: Optional[str] = None
     """A unique identifier for the device."""
     user_agent: Optional[str] = None
     """The user agent string from the user's browser."""
-    signals_id: Optional[str] = None
-    """An optional Radar signals ID to correlate client-side signals with this authentication attempt."""
-    radar_auth_attempt_id: Optional[str] = None
-    """The ID of an existing Radar authentication attempt to associate with this authentication."""
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "PasswordSessionAuthenticateRequest":
+    def from_dict(
+        cls, data: Dict[str, Any]
+    ) -> "RadarSmsChallengeCodeSessionAuthenticateRequest":
         """Deserialize from a dictionary."""
         try:
             return cls(
                 client_id=data["client_id"],
                 client_secret=data["client_secret"],
-                grant_type=data.get("grant_type", "password"),
-                email=data["email"],
-                password=data["password"],
-                invitation_token=data.get("invitation_token"),
+                grant_type=data.get(
+                    "grant_type", "urn:workos:oauth:grant-type:radar-sms-challenge:code"
+                ),
+                code=data["code"],
+                verification_id=data["verification_id"],
+                phone_number=data["phone_number"],
+                pending_authentication_token=data["pending_authentication_token"],
                 ip_address=data.get("ip_address"),
                 device_id=data.get("device_id"),
                 user_agent=data.get("user_agent"),
-                signals_id=data.get("signals_id"),
-                radar_auth_attempt_id=data.get("radar_auth_attempt_id"),
             )
         except (KeyError, ValueError) as e:
-            _raise_deserialize_error("PasswordSessionAuthenticateRequest", e)
+            _raise_deserialize_error(
+                "RadarSmsChallengeCodeSessionAuthenticateRequest", e
+            )
 
     def to_dict(self) -> Dict[str, Any]:
         """Serialize to a dictionary."""
@@ -59,18 +62,14 @@ class PasswordSessionAuthenticateRequest:
         result["client_id"] = self.client_id
         result["client_secret"] = self.client_secret
         result["grant_type"] = self.grant_type
-        result["email"] = self.email
-        result["password"] = self.password
-        if self.invitation_token is not None:
-            result["invitation_token"] = self.invitation_token
+        result["code"] = self.code
+        result["verification_id"] = self.verification_id
+        result["phone_number"] = self.phone_number
+        result["pending_authentication_token"] = self.pending_authentication_token
         if self.ip_address is not None:
             result["ip_address"] = self.ip_address
         if self.device_id is not None:
             result["device_id"] = self.device_id
         if self.user_agent is not None:
             result["user_agent"] = self.user_agent
-        if self.signals_id is not None:
-            result["signals_id"] = self.signals_id
-        if self.radar_auth_attempt_id is not None:
-            result["radar_auth_attempt_id"] = self.radar_auth_attempt_id
         return result
