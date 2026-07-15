@@ -18,9 +18,9 @@ pip install workos
 ## Quick Start
 
 ```python
-from workos import WorkOSClient
+from workos import WorkClient
 
-client = WorkOSClient(api_key="sk_1234", client_id="client_1234")
+client = WorkClient(api_key="sk_1234", client_id="client_1234")
 
 # List organizations
 page = client.organizations.list_organizations()

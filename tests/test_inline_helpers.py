@@ -283,10 +283,10 @@ class TestGetJwksUrl:
         assert url == "https://api.workos.com/sso/jwks/client_other"
 
     def test_raises_when_no_client_id_configured(self):
-        from workos import WorkOSClient
+        from workos import WorkClient
         from workos._errors import ConfigurationError
 
-        client = WorkOSClient(api_key="sk_test_abc")
+        client = WorkClient(api_key="sk_test_abc")
         try:
             with pytest.raises(ConfigurationError):
                 client.user_management.get_jwks_url()

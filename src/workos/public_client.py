@@ -7,7 +7,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Optional
 
 if TYPE_CHECKING:
-    from ._client import WorkOSClient
+    from ._client import WorkClient
 
 
 def create_public_client(
@@ -28,11 +28,11 @@ def create_public_client(
         request_timeout: HTTP request timeout in seconds.
 
     Returns:
-        A WorkOSClient instance with only ``client_id`` configured.
+        A WorkClient instance with only ``client_id`` configured.
     """
-    from ._client import WorkOSClient
+    from ._client import WorkClient
 
-    return WorkOSClient(
+    return WorkClient(
         api_key=None,
         client_id=client_id,
         base_url=base_url,

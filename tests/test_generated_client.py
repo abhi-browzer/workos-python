@@ -5,7 +5,7 @@
 import httpx
 import pytest
 
-from workos import WorkOSClient, AsyncWorkOSClient
+from workos import WorkClient, AsyncWorkOSClient
 from workos import _base_client as generated_client_module
 from workos._errors import (
     AuthenticationError,
@@ -34,20 +34,20 @@ from workos._errors import (
 class TestWorkOSClient:
     def test_missing_credentials_raise(self):
         with pytest.raises(ValueError):
-            WorkOSClient()
+            WorkClient()
 
     def test_context_manager(self):
-        with WorkOSClient(api_key="sk_test_123", client_id="client_test") as client:
+        with WorkClient(api_key="sk_test_123", client_id="client_test") as client:
             assert client._api_key == "sk_test_123"
 
     def test_api_key_only_initializes(self):
-        client = WorkOSClient(api_key="sk_test_123")
+        client = WorkClient(api_key="sk_test_123")
         assert client._api_key == "sk_test_123"
         assert client.client_id is None
         client.close()
 
     def test_client_id_from_constructor(self):
-        client = WorkOSClient(client_id="client_test_456")
+        client = WorkClient(client_id="client_test_456")
         assert client.client_id == "client_test_456"
         assert client._api_key is None
         client.close()
@@ -57,7 +57,7 @@ class TestWorkOSClient:
             status_code=400,
             json={"message": "Error"},
         )
-        client = WorkOSClient(
+        client = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         with pytest.raises(BadRequestError):
@@ -69,7 +69,7 @@ class TestWorkOSClient:
             status_code=401,
             json={"message": "Error"},
         )
-        client = WorkOSClient(
+        client = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         with pytest.raises(AuthenticationError):
@@ -81,7 +81,7 @@ class TestWorkOSClient:
             status_code=403,
             json={"message": "Error"},
         )
-        client = WorkOSClient(
+        client = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         with pytest.raises(AuthorizationError):
@@ -99,7 +99,7 @@ class TestWorkOSClient:
                 "email": "user@example.com",
             },
         )
-        client = WorkOSClient(
+        client = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         with pytest.raises(EmailVerificationRequiredError) as exc_info:
@@ -119,7 +119,7 @@ class TestWorkOSClient:
                 "user": {"id": "user_123", "email": "user@example.com"},
             },
         )
-        client = WorkOSClient(
+        client = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         with pytest.raises(MfaEnrollmentError) as exc_info:
@@ -139,7 +139,7 @@ class TestWorkOSClient:
                 "authentication_factors": [{"id": "af_1", "type": "totp"}],
             },
         )
-        client = WorkOSClient(
+        client = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         with pytest.raises(MfaChallengeError) as exc_info:
@@ -160,7 +160,7 @@ class TestWorkOSClient:
                 "organizations": [{"id": "org_1", "name": "Acme"}],
             },
         )
-        client = WorkOSClient(
+        client = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         with pytest.raises(OrganizationSelectionRequiredError) as exc_info:
@@ -180,7 +180,7 @@ class TestWorkOSClient:
                 "connection_ids": ["conn_1", "conn_2"],
             },
         )
-        client = WorkOSClient(
+        client = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         with pytest.raises(SsoRequiredError) as exc_info:
@@ -202,7 +202,7 @@ class TestWorkOSClient:
                 "auth_methods": {"google_oauth": True, "password": False},
             },
         )
-        client = WorkOSClient(
+        client = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         with pytest.raises(OrganizationAuthMethodsRequiredError) as exc_info:
@@ -231,7 +231,7 @@ class TestWorkOSClient:
                     "pending_authentication_token": "pat_tok",
                 },
             )
-            client = WorkOSClient(
+            client = WorkClient(
                 api_key="sk_test_123", client_id="client_test", max_retries=0
             )
             with pytest.raises(expected_class) as exc_info:
@@ -248,7 +248,7 @@ class TestWorkOSClient:
                 "pending_authentication_token": "pat_123",
             },
         )
-        client = WorkOSClient(
+        client = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         with pytest.raises(AuthorizationError):
@@ -266,7 +266,7 @@ class TestWorkOSClient:
                 "pending_authentication_token": "pat_123",
             },
         )
-        client = WorkOSClient(
+        client = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         with pytest.raises(AuthenticationFlowError):
@@ -278,7 +278,7 @@ class TestWorkOSClient:
             status_code=403,
             json={"code": "some_future_code", "message": "Unknown"},
         )
-        client = WorkOSClient(
+        client = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         with pytest.raises(AuthorizationError) as exc_info:
@@ -291,7 +291,7 @@ class TestWorkOSClient:
             status_code=404,
             json={"message": "Error"},
         )
-        client = WorkOSClient(
+        client = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         with pytest.raises(NotFoundError):
@@ -303,7 +303,7 @@ class TestWorkOSClient:
             status_code=409,
             json={"message": "Error"},
         )
-        client = WorkOSClient(
+        client = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         with pytest.raises(ConflictError):
@@ -315,7 +315,7 @@ class TestWorkOSClient:
             status_code=422,
             json={"message": "Error"},
         )
-        client = WorkOSClient(
+        client = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         with pytest.raises(UnprocessableEntityError):
@@ -327,7 +327,7 @@ class TestWorkOSClient:
             status_code=429,
             json={"message": "Error"},
         )
-        client = WorkOSClient(
+        client = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         with pytest.raises(RateLimitExceededError):
@@ -339,7 +339,7 @@ class TestWorkOSClient:
             status_code=500,
             json={"message": "Error"},
         )
-        client = WorkOSClient(
+        client = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         with pytest.raises(ServerError):
@@ -348,7 +348,7 @@ class TestWorkOSClient:
 
     def test_idempotency_key_on_post(self, httpx_mock):
         httpx_mock.add_response(json={})
-        client = WorkOSClient(api_key="sk_test_123", client_id="client_test")
+        client = WorkClient(api_key="sk_test_123", client_id="client_test")
         client.request("POST", ("test",))
         request = httpx_mock.get_request()
         assert "Idempotency-Key" in request.headers
@@ -356,7 +356,7 @@ class TestWorkOSClient:
 
     def test_no_idempotency_key_on_get(self, httpx_mock):
         httpx_mock.add_response(json={})
-        client = WorkOSClient(api_key="sk_test_123", client_id="client_test")
+        client = WorkClient(api_key="sk_test_123", client_id="client_test")
         client.request("GET", ("test",))
         request = httpx_mock.get_request()
         assert "Idempotency-Key" not in request.headers
@@ -364,7 +364,7 @@ class TestWorkOSClient:
 
     def test_no_authorization_header_without_api_key(self, httpx_mock):
         httpx_mock.add_response(json={})
-        client = WorkOSClient(client_id="client_test")
+        client = WorkClient(client_id="client_test")
         client.request("GET", ("test",))
         request = httpx_mock.get_request()
         assert "Authorization" not in request.headers
@@ -372,14 +372,14 @@ class TestWorkOSClient:
 
     def test_empty_body_sends_json(self, httpx_mock):
         httpx_mock.add_response(json={})
-        client = WorkOSClient(api_key="sk_test_123", client_id="client_test")
+        client = WorkClient(api_key="sk_test_123", client_id="client_test")
         client.request("PUT", ("test",), body={})
         request = httpx_mock.get_request()
         assert request.content == b"{}"
         client.close()
 
     def test_calculate_retry_delay_uses_retry_after_seconds(self):
-        assert WorkOSClient._calculate_retry_delay(1, "30") == 30.0
+        assert WorkClient._calculate_retry_delay(1, "30") == 30.0
 
     def test_retry_exhaustion_raises_rate_limit(self, httpx_mock, monkeypatch):
         monkeypatch.setattr(generated_client_module.time, "sleep", lambda _: None)
@@ -389,7 +389,7 @@ class TestWorkOSClient:
                 headers={"Retry-After": "0"},
                 json={"message": "Slow down"},
             )
-        client = WorkOSClient(
+        client = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=3
         )
         with pytest.raises(RateLimitExceededError):
@@ -402,7 +402,7 @@ class TestWorkOSClient:
             headers={"Retry-After": "30"},
             json={"message": "Slow down"},
         )
-        client = WorkOSClient(
+        client = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         with pytest.raises(RateLimitExceededError) as exc_info:
@@ -413,7 +413,7 @@ class TestWorkOSClient:
     def test_timeout_error_is_wrapped(self, httpx_mock, monkeypatch):
         monkeypatch.setattr(generated_client_module.time, "sleep", lambda _: None)
         httpx_mock.add_exception(httpx.TimeoutException("timed out"))
-        client = WorkOSClient(
+        client = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         with pytest.raises(generated_client_module.WorkOSTimeoutError):
@@ -423,7 +423,7 @@ class TestWorkOSClient:
     def test_connection_error_is_wrapped(self, httpx_mock, monkeypatch):
         monkeypatch.setattr(generated_client_module.time, "sleep", lambda _: None)
         httpx_mock.add_exception(httpx.ConnectError("connect failed"))
-        client = WorkOSClient(
+        client = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         with pytest.raises(generated_client_module.WorkOSConnectionError):
@@ -431,7 +431,7 @@ class TestWorkOSClient:
         client.close()
 
     def test_documented_import_surface_exposes_resources(self):
-        client = WorkOSClient(api_key="sk_test_123", client_id="client_test")
+        client = WorkClient(api_key="sk_test_123", client_id="client_test")
         assert client.admin_portal is not None
         assert client.api_keys is not None
         assert client.audit_logs is not None
@@ -453,7 +453,7 @@ class TestWorkOSClient:
 
     def test_request_raw_preserves_json_dict_response(self, httpx_mock):
         httpx_mock.add_response(json={"ok": True})
-        client = WorkOSClient(
+        client = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         result = client.request_raw("GET", ("test",))
@@ -462,7 +462,7 @@ class TestWorkOSClient:
 
     def test_request_list_preserves_json_array_response(self, httpx_mock):
         httpx_mock.add_response(json=[{"id": "item_123"}])
-        client = WorkOSClient(
+        client = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         result = client.request_list("GET", ("test",))
@@ -471,7 +471,7 @@ class TestWorkOSClient:
 
     def test_request_returns_none_for_non_json_success_without_model(self, httpx_mock):
         httpx_mock.add_response(status_code=202, content=b"\n")
-        client = WorkOSClient(
+        client = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         result = client.request("DELETE", ("test",))

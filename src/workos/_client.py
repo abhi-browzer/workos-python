@@ -5,7 +5,7 @@ from __future__ import annotations
 import functools
 
 from ._base_client import (
-    WorkOSClient as _SyncBase,
+    WorkClient as _SyncBase,
     AsyncWorkOSClient as _AsyncBase,
 )
 from .multi_factor_auth._resource import MultiFactorAuth, AsyncMultiFactorAuth
@@ -41,7 +41,7 @@ from .actions import Actions, AsyncActions
 from .pkce import PKCE
 
 
-class WorkOSClient(_SyncBase):
+class WorkClient(_SyncBase):
     """Synchronous WorkOS API client with service accessors."""
 
     @functools.cached_property

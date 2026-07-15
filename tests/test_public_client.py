@@ -1,4 +1,4 @@
-from workos import WorkOSClient
+from workos import WorkClient
 from workos.pkce import PKCE
 from workos.public_client import create_public_client
 
@@ -7,7 +7,7 @@ class TestPublicClient:
     def test_create_returns_workos_instance(self):
         client = create_public_client(client_id="client_test_123")
         try:
-            assert isinstance(client, WorkOSClient)
+            assert isinstance(client, WorkClient)
         finally:
             client.close()
 

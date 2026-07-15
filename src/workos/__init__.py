@@ -2,7 +2,7 @@
 
 """WorkOS Python SDK."""
 
-from ._client import AsyncWorkOSClient, WorkOSClient
+from ._client import AsyncWorkOSClient, WorkClient
 from ._errors import (
     WorkOSError,
     AuthenticationError,

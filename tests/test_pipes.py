@@ -3,7 +3,7 @@
 import json
 
 import pytest
-from workos import WorkOSClient, AsyncWorkOSClient
+from workos import WorkClient, AsyncWorkOSClient
 from tests.generated_helpers import load_fixture
 
 from workos.common.models import ConnectedAccount, PaginationOrder
@@ -296,7 +296,7 @@ class TestPipes:
             workos.pipes.list_data_integrations()
 
     def test_list_data_integrations_not_found(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:
@@ -307,7 +307,7 @@ class TestPipes:
             workos.close()
 
     def test_list_data_integrations_rate_limited(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:
@@ -322,7 +322,7 @@ class TestPipes:
             workos.close()
 
     def test_list_data_integrations_server_error(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:
@@ -333,7 +333,7 @@ class TestPipes:
             workos.close()
 
     def test_list_data_integrations_bad_request(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:
@@ -344,7 +344,7 @@ class TestPipes:
             workos.close()
 
     def test_list_data_integrations_unprocessable(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:

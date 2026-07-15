@@ -1,7 +1,7 @@
 import json
 
 import pytest
-from workos import WorkOSClient, AsyncWorkOSClient
+from workos import WorkClient, AsyncWorkOSClient
 from tests.generated_helpers import load_fixture
 
 from workos.passwordless import PasswordlessSession
@@ -73,7 +73,7 @@ class TestPasswordless:
             )
 
     def test_create_session_not_found(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:
@@ -86,7 +86,7 @@ class TestPasswordless:
             workos.close()
 
     def test_create_session_rate_limited(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:
@@ -103,7 +103,7 @@ class TestPasswordless:
             workos.close()
 
     def test_create_session_server_error(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:

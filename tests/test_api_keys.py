@@ -3,7 +3,7 @@
 import json
 
 import pytest
-from workos import WorkOSClient, AsyncWorkOSClient
+from workos import WorkClient, AsyncWorkOSClient
 from tests.generated_helpers import load_fixture
 
 from workos.api_keys.models import (
@@ -121,7 +121,7 @@ class TestApiKeys:
             workos.api_keys.list_organization_api_keys("test_organizationId")
 
     def test_list_organization_api_keys_not_found(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:
@@ -132,7 +132,7 @@ class TestApiKeys:
             workos.close()
 
     def test_list_organization_api_keys_rate_limited(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:
@@ -147,7 +147,7 @@ class TestApiKeys:
             workos.close()
 
     def test_list_organization_api_keys_server_error(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:
@@ -158,7 +158,7 @@ class TestApiKeys:
             workos.close()
 
     def test_list_organization_api_keys_bad_request(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:
@@ -169,7 +169,7 @@ class TestApiKeys:
             workos.close()
 
     def test_list_organization_api_keys_unprocessable(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:

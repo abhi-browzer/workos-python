@@ -3,13 +3,13 @@
 import pytest
 import pytest_asyncio
 
-from workos import WorkOSClient, AsyncWorkOSClient
+from workos import WorkClient, AsyncWorkOSClient
 
 
 @pytest.fixture
 def workos():
     """Create a WorkOS client for testing with guaranteed cleanup."""
-    client = WorkOSClient(
+    client = WorkClient(
         api_key="sk_test_Sz3IQjepeSWaI4cMS4ms4sMuU", client_id="client_test"
     )
     yield client

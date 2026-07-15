@@ -351,7 +351,7 @@ class _BaseWorkOSClient:
         )
 
 
-class WorkOSClient(_BaseWorkOSClient):
+class WorkClient(_BaseWorkOSClient):
     """Synchronous WorkOS API client."""
 
     def __init__(

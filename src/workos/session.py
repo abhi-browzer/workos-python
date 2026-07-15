@@ -39,7 +39,7 @@ from ._errors import (
 )
 
 if TYPE_CHECKING:
-    from ._client import AsyncWorkOSClient, WorkOSClient
+    from ._client import AsyncWorkOSClient, WorkClient
 
 
 # ---------------------------------------------------------------------------

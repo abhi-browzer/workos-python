@@ -17,7 +17,7 @@ import sys
 from pathlib import Path
 
 
-# Service accessors exposed on both WorkOSClient and AsyncWorkOSClient.
+# Service accessors exposed on both WorkClient and AsyncWorkOSClient.
 CLIENT_MODULES = [
     "actions",
     "admin_portal",
@@ -74,11 +74,11 @@ def test_py_typed_marker() -> None:
 
 def test_sync_client_import_and_instantiate() -> None:
     """Verify sync client can be imported and instantiated."""
-    from workos import WorkOSClient
+    from workos import WorkClient
 
-    client = WorkOSClient(api_key="sk_test_smoke", client_id="client_smoke")
+    client = WorkClient(api_key="sk_test_smoke", client_id="client_smoke")
     assert client is not None
-    print("✓ WorkOSClient imports and instantiates")
+    print("✓ WorkClient imports and instantiates")
 
 
 def test_async_client_import_and_instantiate() -> None:
@@ -92,9 +92,9 @@ def test_async_client_import_and_instantiate() -> None:
 
 def test_sync_client_modules_accessible() -> None:
     """Verify all service accessors are reachable on the sync client."""
-    from workos import WorkOSClient
+    from workos import WorkClient
 
-    client = WorkOSClient(api_key="sk_test_smoke", client_id="client_smoke")
+    client = WorkClient(api_key="sk_test_smoke", client_id="client_smoke")
 
     for module_name in CLIENT_MODULES:
         module = getattr(client, module_name, None)

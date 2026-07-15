@@ -2,7 +2,7 @@
 
 
 import pytest
-from workos import WorkOSClient, AsyncWorkOSClient
+from workos import WorkClient, AsyncWorkOSClient
 from tests.generated_helpers import load_fixture
 
 from workos.pipes_provider.models import (
@@ -87,7 +87,7 @@ class TestPipesProvider:
     def test_list_organization_data_integration_configurations_not_found(
         self, httpx_mock
     ):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:
@@ -102,7 +102,7 @@ class TestPipesProvider:
     def test_list_organization_data_integration_configurations_rate_limited(
         self, httpx_mock
     ):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:
@@ -121,7 +121,7 @@ class TestPipesProvider:
     def test_list_organization_data_integration_configurations_server_error(
         self, httpx_mock
     ):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:
@@ -136,7 +136,7 @@ class TestPipesProvider:
     def test_list_organization_data_integration_configurations_bad_request(
         self, httpx_mock
     ):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:
@@ -151,7 +151,7 @@ class TestPipesProvider:
     def test_list_organization_data_integration_configurations_unprocessable(
         self, httpx_mock
     ):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:

@@ -43,19 +43,19 @@ The client class names are unchanged, but the old module paths are gone.
 **v5**
 
 ```python
-from workos.client import WorkOSClient
+from workos.client import WorkClient
 from workos.async_client import AsyncWorkOSClient
 ```
 
 **v6**
 
 ```python
-from workos import WorkOSClient, AsyncWorkOSClient
+from workos import WorkClient, AsyncWorkOSClient
 ```
 
 **Affected users:** Anyone importing from `workos.client` or `workos.async_client`.
 
-**Migration:** Move client imports to `from workos import WorkOSClient, AsyncWorkOSClient`.
+**Migration:** Move client imports to `from workos import WorkClient, AsyncWorkOSClient`.
 
 ### `portal` became `admin_portal`
 
@@ -287,17 +287,17 @@ The generated runtime retries retryable failures by default, including `429` and
 **v6**
 
 ```python
-from workos import WorkOSClient
+from workos import WorkClient
 
-client = WorkOSClient(api_key="sk_test_123", max_retries=0)
+client = WorkClient(api_key="sk_test_123", max_retries=0)
 ```
 
 Per-request overrides are available through `request_options`.
 
 ```python
-from workos import WorkOSClient
+from workos import WorkClient
 
-client = WorkOSClient(api_key="sk_test_123")
+client = WorkClient(api_key="sk_test_123")
 
 client.organizations.list_organizations(
     request_options={
@@ -318,19 +318,19 @@ v6 accepts either an API key or a client ID at client construction time.
 **v5**
 
 ```python
-from workos import WorkOSClient
+from workos import WorkClient
 
-client = WorkOSClient(api_key="sk_test_123", client_id="client_123")
+client = WorkClient(api_key="sk_test_123", client_id="client_123")
 ```
 
 **v6**
 
 ```python
-from workos import WorkOSClient
+from workos import WorkClient
 
-server_client = WorkOSClient(api_key="sk_test_123")
-public_client = WorkOSClient(client_id="client_123")
-hybrid_client = WorkOSClient(api_key="sk_test_123", client_id="client_123")
+server_client = WorkClient(api_key="sk_test_123")
+public_client = WorkClient(client_id="client_123")
+hybrid_client = WorkClient(api_key="sk_test_123", client_id="client_123")
 ```
 
 Operations that require a missing credential now raise `ConfigurationError` when called.

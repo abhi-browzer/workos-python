@@ -3,7 +3,7 @@
 import json
 
 import pytest
-from workos import WorkOSClient, AsyncWorkOSClient
+from workos import WorkClient, AsyncWorkOSClient
 from tests.generated_helpers import load_fixture
 
 from workos.common.models import (
@@ -109,7 +109,7 @@ class TestRadar:
             )
 
     def test_create_attempt_not_found(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:
@@ -126,7 +126,7 @@ class TestRadar:
             workos.close()
 
     def test_create_attempt_rate_limited(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:
@@ -147,7 +147,7 @@ class TestRadar:
             workos.close()
 
     def test_create_attempt_server_error(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:
@@ -164,7 +164,7 @@ class TestRadar:
             workos.close()
 
     def test_create_attempt_bad_request(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:
@@ -181,7 +181,7 @@ class TestRadar:
             workos.close()
 
     def test_create_attempt_unprocessable(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:

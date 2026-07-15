@@ -3,7 +3,7 @@
 import json
 
 import pytest
-from workos import WorkOSClient, AsyncWorkOSClient
+from workos import WorkClient, AsyncWorkOSClient
 from tests.generated_helpers import load_fixture
 
 from workos.audit_logs.models import (
@@ -196,7 +196,7 @@ class TestAuditLogs:
             workos.audit_logs.get_organization_audit_logs_retention("test_id")
 
     def test_get_organization_audit_logs_retention_not_found(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:
@@ -207,7 +207,7 @@ class TestAuditLogs:
             workos.close()
 
     def test_get_organization_audit_logs_retention_rate_limited(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:
@@ -222,7 +222,7 @@ class TestAuditLogs:
             workos.close()
 
     def test_get_organization_audit_logs_retention_server_error(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:
@@ -233,7 +233,7 @@ class TestAuditLogs:
             workos.close()
 
     def test_get_organization_audit_logs_retention_bad_request(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:
@@ -244,7 +244,7 @@ class TestAuditLogs:
             workos.close()
 
     def test_get_organization_audit_logs_retention_unprocessable(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:

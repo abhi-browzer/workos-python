@@ -2,7 +2,7 @@
 
 
 import pytest
-from workos import WorkOSClient, AsyncWorkOSClient
+from workos import WorkClient, AsyncWorkOSClient
 from tests.generated_helpers import load_fixture
 
 from workos.common.models import DirectoryGroup, PaginationOrder
@@ -181,7 +181,7 @@ class TestDirectorySync:
             workos.directory_sync.list_directories()
 
     def test_list_directories_not_found(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:
@@ -192,7 +192,7 @@ class TestDirectorySync:
             workos.close()
 
     def test_list_directories_rate_limited(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:
@@ -207,7 +207,7 @@ class TestDirectorySync:
             workos.close()
 
     def test_list_directories_server_error(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:
@@ -218,7 +218,7 @@ class TestDirectorySync:
             workos.close()
 
     def test_list_directories_bad_request(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:
@@ -229,7 +229,7 @@ class TestDirectorySync:
             workos.close()
 
     def test_list_directories_unprocessable(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:

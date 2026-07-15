@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any, Dict, Literal, Optional
 
 if TYPE_CHECKING:
-    from ._client import AsyncWorkOSClient, WorkOSClient
+    from ._client import AsyncWorkOSClient, WorkClient
 
 PasswordlessSessionType = Literal["MagicLink"]
 

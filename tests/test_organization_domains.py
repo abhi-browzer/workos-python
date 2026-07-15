@@ -3,7 +3,7 @@
 import json
 
 import pytest
-from workos import WorkOSClient, AsyncWorkOSClient
+from workos import WorkClient, AsyncWorkOSClient
 from tests.generated_helpers import load_fixture
 
 from workos.common.models import OrganizationDomain
@@ -89,7 +89,7 @@ class TestOrganizationDomains:
             )
 
     def test_create_organization_domain_not_found(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:
@@ -102,7 +102,7 @@ class TestOrganizationDomains:
             workos.close()
 
     def test_create_organization_domain_rate_limited(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:
@@ -119,7 +119,7 @@ class TestOrganizationDomains:
             workos.close()
 
     def test_create_organization_domain_server_error(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:
@@ -132,7 +132,7 @@ class TestOrganizationDomains:
             workos.close()
 
     def test_create_organization_domain_bad_request(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:
@@ -145,7 +145,7 @@ class TestOrganizationDomains:
             workos.close()
 
     def test_create_organization_domain_unprocessable(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:

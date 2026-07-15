@@ -3,7 +3,7 @@
 import json
 
 import pytest
-from workos import WorkOSClient, AsyncWorkOSClient
+from workos import WorkClient, AsyncWorkOSClient
 from tests.generated_helpers import load_fixture
 
 from workos.common.models import PaginationOrder
@@ -103,7 +103,7 @@ class TestWebhooks:
             workos.webhooks.list_webhook_endpoints()
 
     def test_list_webhook_endpoints_not_found(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:
@@ -114,7 +114,7 @@ class TestWebhooks:
             workos.close()
 
     def test_list_webhook_endpoints_rate_limited(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:
@@ -129,7 +129,7 @@ class TestWebhooks:
             workos.close()
 
     def test_list_webhook_endpoints_server_error(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:
@@ -140,7 +140,7 @@ class TestWebhooks:
             workos.close()
 
     def test_list_webhook_endpoints_bad_request(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:
@@ -151,7 +151,7 @@ class TestWebhooks:
             workos.close()
 
     def test_list_webhook_endpoints_unprocessable(self, httpx_mock):
-        workos = WorkOSClient(
+        workos = WorkClient(
             api_key="sk_test_123", client_id="client_test", max_retries=0
         )
         try:
