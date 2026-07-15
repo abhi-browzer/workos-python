@@ -41,7 +41,7 @@ A minimal Flask web application demonstrating WorkOS SSO authentication, organiz
 - **Logout (`/logout`)**: Clears the user session
 
 The example demonstrates:
-- Initializing the WorkOS client with environment variables
+- Initializing the WorkOS client (`WorkClient`) with environment variables
 - SSO authentication with `get_authorization_url()` and `authenticate_with_code()`
 - Organization listing with `list_organizations()`
 - User retrieval with `get_user()` and `list_users()`

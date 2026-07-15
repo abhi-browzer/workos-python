@@ -1,6 +1,6 @@
 import os
 from flask import Flask, redirect, request, session, url_for, render_template_string
-from workos import WorkOSClient
+from workos import WorkClient
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -9,7 +9,7 @@ app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "dev-secret-key-change-in-production")
 
 # Initialize WorkOS client (reads WORKOS_API_KEY and WORKOS_CLIENT_ID from environment)
-client = WorkOSClient(
+client = WorkClient(
     api_key=os.getenv("WORKOS_API_KEY"),
     client_id=os.getenv("WORKOS_CLIENT_ID")
 )
