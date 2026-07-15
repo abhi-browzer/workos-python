@@ -58,10 +58,10 @@ After installing the SDK, you need to create a client instance with your WorkOS 
 - WorkOS client ID from your dashboard (starts with client_)
 
 ```python
-from workos import WorkOSClient
+from workos import WorkClient
 
 # Direct credential initialization
-client = WorkOSClient(
+client = WorkClient(
     api_key="sk_example_1234567890abcdef",
     client_id="client_example_1234567890abcdef"
 )
@@ -79,7 +79,7 @@ except Exception as e:
     print(f"API call failed: {e}")
 ```
 
-The `WorkOSClient` is your main entry point to the SDK. It requires two credentials:
+The `WorkClient` is your main entry point to the SDK. It requires two credentials:
 
 - **api_key**: Your secret API key from the WorkOS dashboard, used to authenticate all API requests. This always starts with `sk_` for production keys or `sk_test_` for test mode.
 - **client_id**: Your application's client identifier, required for OAuth flows and some user management operations. This starts with `client_` or `client_test_`.
@@ -91,7 +91,7 @@ The client exposes all WorkOS resources as properties: `client.sso`, `client.org
 **Expected output**
 
 ```
-Client initialized: <WorkOSClient api_key=sk_exa...def client_id=client_exa...def>
+Client initialized: <WorkClient api_key=sk_exa...def client_id=client_exa...def>
 Found 3 organizations
   - Acme Corp (ID: org_01H1234567890ABCDEFGHJKMNP)
   - Example Inc (ID: org_01H9876543210ZYXWVUTSRQPON)
@@ -113,14 +113,14 @@ You want to keep credentials out of your code and configure the WorkOS client vi
 
 ```python
 import os
-from workos import WorkOSClient
+from workos import WorkClient
 
 # Set environment variables (typically done outside the application)
 # export WORKOS_API_KEY="sk_example_1234567890abcdef"
 # export WORKOS_CLIENT_ID="client_example_1234567890abcdef"
 
 # The client automatically reads from environment variables
-client = WorkOSClient()
+client = WorkClient()
 
 # You can verify which credentials are being used
 print(f"Using API key: {os.getenv('WORKOS_API_KEY', 'not set')[:10]}...")
@@ -134,7 +134,7 @@ except Exception as e:
     print(f"✗ Configuration error: {e}")
 
 # Optional: Override specific environment variables
-client_with_override = WorkOSClient(
+client_with_override = WorkClient(
     api_key=os.getenv("WORKOS_API_KEY"),
     client_id=os.getenv("WORKOS_CLIENT_ID"),
     # Custom timeout from environment or default to 30 seconds
@@ -152,7 +152,7 @@ The WorkOS client reads credentials from environment variables when not passed e
 
 This pattern keeps secrets out of version control and makes it easy to use different credentials across development, staging, and production. In containerized environments like Docker or Kubernetes, these are typically injected at runtime via platform secrets management.
 
-Calling `WorkOSClient()` with no arguments will raise an error if the required environment variables aren't set, giving you immediate feedback about missing configuration. You can mix explicit parameters with environment variables — explicit arguments always take precedence.
+Calling `WorkClient()` with no arguments will raise an error if the required environment variables aren't set, giving you immediate feedback about missing configuration. You can mix explicit parameters with environment variables — explicit arguments always take precedence.
 
 **Expected output**
 
@@ -279,9 +279,9 @@ You need to override timeout, retry behavior, add custom headers, or use a diffe
 - WorkOS SDK installed and client initialized
 
 ```python
-from workos import WorkOSClient
+from workos import WorkClient
 
-client = WorkOSClient(
+client = WorkClient(
     api_key="sk_example_1234567890abcdef",
     client_id="client_example_1234567890abcdef"
 )
@@ -402,7 +402,7 @@ API calls can fail for various reasons (invalid credentials, resource not found,
 - WorkOS SDK installed and client initialized
 
 ```python
-from workos import WorkOSClient
+from workos import WorkClient
 from workos._errors import (
     BadRequestError,
     AuthenticationError,
@@ -415,7 +415,7 @@ from workos._errors import (
 )
 import time
 
-client = WorkOSClient(
+client = WorkClient(
     api_key="sk_example_1234567890abcdef",
     client_id="client_example_1234567890abcdef"
 )
@@ -432,7 +432,7 @@ except NotFoundError as e:
 
 # Example 2: Authentication failure
 print("\nExample 2: Authentication error")
-invalid_client = WorkOSClient(api_key="sk_invalid", client_id="client_test_123")
+invalid_client = WorkClient(api_key="sk_invalid", client_id="client_test_123")
 try:
     invalid_client.organizations.list_organizations()
 except AuthenticationError as e:
@@ -554,11 +554,11 @@ You need separate WorkOS clients for test and production environments, or for di
 - Multiple sets of credentials (test and production)
 
 ```python
-from workos import WorkOSClient, AsyncWorkOSClient
+from workos import WorkClient, AsyncWorkOSClient
 import os
 
 # Production client with explicit credentials
-production_client = WorkOSClient(
+production_client = WorkClient(
     api_key=os.getenv("WORKOS_PROD_API_KEY", "sk_prod_1234567890abcdef"),
     client_id=os.getenv("WORKOS_PROD_CLIENT_ID", "client_prod_1234567890abcdef"),
     request_timeout=30,  # Tighter timeout for production
@@ -566,7 +566,7 @@ production_client = WorkOSClient(
 print(f"Production client initialized")
 
 # Test/staging client with different credentials
-test_client = WorkOSClient(
+test_client = WorkClient(
     api_key=os.getenv("WORKOS_TEST_API_KEY", "sk_test_1234567890abcdef"),
     client_id=os.getenv("WORKOS_TEST_CLIENT_ID", "client_test_1234567890abcdef"),
     request_timeout=60,  # Longer timeout for test environment
@@ -574,7 +574,7 @@ test_client = WorkOSClient(
 print(f"Test client initialized")
 
 # Development client pointing to staging API
-dev_client = WorkOSClient(
+dev_client = WorkClient(
     api_key=os.getenv("WORKOS_DEV_API_KEY", "sk_dev_1234567890abcdef"),
     client_id=os.getenv("WORKOS_DEV_CLIENT_ID", "client_dev_1234567890abcdef"),
 )
@@ -589,7 +589,7 @@ service_async_client = AsyncWorkOSClient(
 print(f"Service async client initialized")
 
 # Helper to get the right client based on environment
-def get_workos_client(environment: str = None) -> WorkOSClient:
+def get_workos_client(environment: str = None) -> WorkClient:
     """Factory function to get the appropriate WorkOS client."""
     if environment is None:
         environment = os.getenv("APP_ENV", "development")
@@ -631,7 +631,7 @@ print(f"✓ Current environment client: {current_client}")
 class WorkOSService:
     """Example service class with injectable client."""
     
-    def __init__(self, client: WorkOSClient = None):
+    def __init__(self, client: WorkClient = None):
         self.client = client or get_workos_client()
     
     def get_organization_count(self) -> int:
@@ -673,7 +673,7 @@ Service async client initialized
 Using clients:
 ✓ Production: 1 organizations
 ✓ Test: 1 organizations
-✓ Current environment client: <WorkOSClient api_key=sk_dev...def client_id=client_dev...def>
+✓ Current environment client: <WorkClient api_key=sk_dev...def client_id=client_dev...def>
 
 ✓ Service initialized with production client
 ✓ Test service initialized with test client
@@ -696,9 +696,9 @@ The SDK requires Python 3.7 or higher. We test against Python 3.7, 3.8, 3.9, 3.1
 
 Use environment variables (WORKOS_API_KEY, WORKOS_CLIENT_ID) for production deployments. This keeps secrets out of code and version control. Pass credentials directly only for quick scripts, local development, or when loading from a secrets manager. The client reads from environment variables automatically if you don't pass them explicitly.
 
-### When should I use AsyncWorkOSClient instead of WorkOSClient?
+### When should I use AsyncWorkOSClient instead of WorkClient?
 
-Use AsyncWorkOSClient when your application is built on async frameworks like FastAPI, aiohttp, or Starlette. The async client prevents blocking the event loop during API calls, which is critical for performance in async applications. If you're using Flask, Django (non-async), or standard synchronous code, use the regular WorkOSClient.
+Use AsyncWorkOSClient when your application is built on async frameworks like FastAPI, aiohttp, or Starlette. The async client prevents blocking the event loop during API calls, which is critical for performance in async applications. If you're using Flask, Django (non-async), or standard synchronous code, use the regular WorkClient.
 
 ### How do I handle rate limits in production?
 
@@ -706,11 +706,11 @@ Catch RateLimitExceededError and check the retry_after property to see how many 
 
 ### Can I use multiple WorkOS clients in the same application?
 
-Yes. Each WorkOSClient instance is independent and can have different credentials, timeouts, or configurations. This is useful for multi-tenant applications, environment separation (dev/staging/prod), or integrating with multiple WorkOS projects. Just create separate client instances with the appropriate credentials and use them where needed.
+Yes. Each WorkClient instance is independent and can have different credentials, timeouts, or configurations. This is useful for multi-tenant applications, environment separation (dev/staging/prod), or integrating with multiple WorkOS projects. Just create separate client instances with the appropriate credentials and use them where needed.
 
 ## Key takeaways
 
-- Install the SDK with `pip install workos` and initialize WorkOSClient with your API key and client ID — credentials can be passed explicitly or via WORKOS_API_KEY and WORKOS_CLIENT_ID environment variables.
+- Install the SDK with `pip install workos` and initialize WorkClient with your API key and client ID — credentials can be passed explicitly or via WORKOS_API_KEY and WORKOS_CLIENT_ID environment variables.
 - Use AsyncWorkOSClient for async frameworks (FastAPI, aiohttp) to avoid blocking the event loop; the async API is identical to the sync client except every method must be awaited.
 - Override timeout, retries, headers, or base URL per-request using the request_options parameter without modifying the global client configuration.
 - All API errors map to typed exceptions (NotFoundError, RateLimitExceededError, etc.) with message, status_code, and request_id properties — always log request_id for debugging.
