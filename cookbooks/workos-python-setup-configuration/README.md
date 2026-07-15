@@ -230,7 +230,7 @@ if __name__ == "__main__":
     asyncio.run(concurrent_operations())
 ```
 
-`AsyncWorkOSClient` provides the exact same API surface as `WorkOSClient`, but every method returns an awaitable coroutine instead of blocking. This is critical for async web frameworks like FastAPI, aiohttp, or Starlette, where blocking the event loop degrades performance.
+`AsyncWorkOSClient` provides the exact same API surface as `WorkClient`, but every method returns an awaitable coroutine instead of blocking. This is critical for async web frameworks like FastAPI, aiohttp, or Starlette, where blocking the event loop degrades performance.
 
 The async client uses `httpx`'s async transport under the hood. All pagination helpers work identically: `page.auto_paging_iter()` becomes an async iterator you use with `async for`. The client handles connection pooling and keep-alive automatically.
 
@@ -266,7 +266,7 @@ Completed 2 concurrent requests
 ```
 
 **Gotchas**
-- Never use WorkOSClient (sync) in an async function — it will block the event loop. Always use AsyncWorkOSClient in async contexts.
+- Never use WorkClient (sync) in an async function — it will block the event loop. Always use AsyncWorkOSClient in async contexts.
 - Don't forget to await every method call. Forgetting await will return a coroutine object instead of the result, which will cause runtime errors.
 - If you're using FastAPI or similar frameworks, create the AsyncWorkOSClient once at startup and inject it as a dependency rather than creating new instances per request.
 - The async client maintains its own connection pool. Creating many client instances can exhaust file descriptors. Reuse a single instance.
